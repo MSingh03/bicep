@@ -33,5 +33,5 @@ jobs:
           --name $VM_NAME \
           --image $IMAGE \
           --size $SIZE \
-          --admin-username Meghana\
+          --admin-username meghana\
           --generate-ssh-keys
