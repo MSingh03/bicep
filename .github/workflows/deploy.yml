@@ -1,0 +1,27 @@
+name: Deploy Azure VM using Bicep
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Azure CLI
+      uses: azure/cli@v1
+
+    - name: Login to Azure
+      run: az login --service-principal -u ${{ secrets.MY_SECRET }} -p ${{ secrets.AZURE_CLIENT_SECRET }} --tenant ${{ secrets.AZURE_TENANT_ID }}
+
+    - name: Deploy Bicep file
+      run: |
+        az deployment group create \
+          --resource-group wissen \
+          --template-file main.bicep \
+          --parameters @main.parameters.json
