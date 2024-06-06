@@ -1,24 +1,37 @@
-name: Deploy Azure VM using Bicep
-
+name: Create Azure VM
+ 
 on:
   push:
     branches:
       - main
-
+ 
 jobs:
-  deploy:
+  create-vm:
     runs-on: ubuntu-latest
-
+ 
     steps:
-    - name: Checkout code
+    - name: Checkout repository
       uses: actions/checkout@v2
-      
-    - name: Login to Azure
-      run: az login --service-principal -u ${{ secrets.MY_SECRET }} -p ${{ secrets.AZURE_CLIENT_SECRET }} --tenant ${{ secrets.AZURE_TENANT_ID }}
-
-    - name: Deploy Bicep file
+ 
+    - name: Log in to Azure
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.MY_SECRET }}
+ 
+    - name: Create Azure VM
       run: |
-        az deployment group create \
-          --resource-group wissen \
-          --template-file main.bicep \
-          --parameters @main.parameters.json
+        # Define variables
+        RESOURCE_GROUP="BH-team"
+        LOCATION="eastus" 
+        VM_NAME="MyLinuxVM"
+        IMAGE="Ubuntu2204"
+        SIZE="Standard_B1s"
+ 
+        # Create VM in the existing resource group
+        az vm create \
+          --resource-group $RESOURCE_GROUP \
+          --name $VM_NAME \
+          --image $IMAGE \
+          --size $SIZE \
+          --admin-username Meghana\
+          --generate-ssh-keys
