@@ -21,7 +21,7 @@ jobs:
     - name: Create Azure VM
       run: |
         # Define variables
-        RESOURCE_GROUP="BH-team"
+        RESOURCE_GROUP="wissen"
         LOCATION="eastus" 
         VM_NAME="MyLinuxVM"
         IMAGE="Ubuntu2204"
