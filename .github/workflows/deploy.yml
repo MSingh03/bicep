@@ -12,10 +12,7 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
-
-    - name: Set up Azure CLI
-      uses: azure/cli@v1
-
+      
     - name: Login to Azure
       run: az login --service-principal -u ${{ secrets.MY_SECRET }} -p ${{ secrets.AZURE_CLIENT_SECRET }} --tenant ${{ secrets.AZURE_TENANT_ID }}
 
